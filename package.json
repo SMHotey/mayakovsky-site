@@ -1,0 +1,39 @@
+{
+  "name": "author-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Сайт о Владимире Маяковском: биография, люди, библиотека произведений, научные работы",
+  "scripts": {
+    "import:genres": "node scripts/import-genres.mjs",
+    "import:works": "node scripts/import-works.mjs",
+    "build:works": "node scripts/build-works.mjs",
+    "stamp:updated": "node scripts/last-updated.mjs",
+    "prebuild": "node scripts/last-updated.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check-links.mjs",
+    "check:affiliate": "node scripts/check-affiliate.mjs",
+    "audit:texts": "node scripts/text-audit.mjs",
+    "sync:prices": "node scripts/sync-prices.mjs",
+    "import:audiobooks": "python scripts/import-audiobooks.py",
+    "indexnow": "node scripts/indexnow.mjs",
+    "inventory": "node scripts/inventory.mjs",
+    "analyze": "node scripts/analyze/corpus.mjs",
+    "dossiers": "node scripts/dossier-merge.mjs",
+    "verify": "npm run build && npm run check && node scripts/text-audit.mjs && node scripts/verify.mjs && node scripts/content-coverage.mjs --gate && node scripts/links-orphans.mjs && node scripts/metrika-goals.mjs",
+    "verify:strict": "npm run build && npm run check && node scripts/text-audit.mjs --strict && node scripts/verify.mjs --strict&& node scripts/content-coverage.mjs --gate && node scripts/links-orphans.mjs && node scripts/metrika-goals.mjs",
+    "serve": "node scripts/serve.mjs",
+    "preview": "npm run build && npm run serve",
+    "dev": "npm run build && npm run serve",
+    "queue:status": "node scripts/queue-status.mjs",
+    "seo:audit": "node scripts/seo-audit.mjs",
+    "seo:report": "node scripts/seo-report.mjs",
+    "content:coverage": "node scripts/content-coverage.mjs",
+    "links:orphans": "node scripts/links-orphans.mjs",
+    "metrika:goals": "node scripts/metrika-goals.mjs",
+    "indexnow:dry": "node scripts/indexnow.mjs --dry-run"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

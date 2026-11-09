@@ -1,0 +1,111 @@
+{
+  "siteUrl": "https://poet-mayakovsky.ru",
+  "updated": "2026-11-10",
+  "ogImage": "/img/og.jpg",
+  "textsPublicDomain": true,
+  "locale": "ru_RU",
+  "lang": "ru",
+  "author": {
+    "firstName": "Владимир",
+    "lastName": "Маяковский",
+    "name": "Владимир Маяковский",
+    "fullName": "Владимир Владимирович Маяковский",
+    "genitive": "Маяковского",
+    "prepositional": "Маяковском",
+    "role": "поэт",
+    "roleGenitive": "поэта",
+    "years": "1893—1930",
+    "birthDate": "1893-07-19",
+    "deathDate": "1930-04-14",
+    "birthPlace": "Багдати, Кутаисская губерния, Российская империя (ныне Багдати, Грузия)",
+    "deathPlace": "Москва, СССР",
+    "shortDescription": "Русский советский поэт",
+    "lead": "",
+    "portrait": "/img/portrait.jpg",
+    "portraitAlt": "Портрет: Владимир Маяковский",
+    "portraitCaption": "Владимир Маяковский. Фотография.<br>Wikimedia Commons, Public Domain",
+    "footerAbout": "Сайт об авторе: Владимир Маяковский. Биография, тексты, люди, места и книги.",
+    "footerNote": "Материалы сверяются с академическими изданиями. Спорные вопросы вынесены в раздел «Версии».",
+    "copyright": "© 2026 Проект о Маяковском. Тексты произведений — общественное достояние.",
+    "licenseNote": "Тексты произведений — общественное достояние. Фотографии — Wikimedia Commons (PD). Библиографические описания — в информационных целях."
+  },
+  "peopleCategories": {
+    "family": "Семья",
+    "relatives": "Родственники",
+    "friends": "Друзья",
+    "wives": "Жёны",
+    "women": "Женщины",
+    "children": "Дети"
+  },
+  "home": {
+    "featuredWorks": [],
+    "featuredPeople": [],
+    "keyEvents": []
+  },
+  "reader": {
+    "book": {
+      "available": true,
+      "genres": [
+        "Проза",
+        "Статья",
+        "Автобиография"
+      ],
+      "minChars": 1500
+    }
+  },
+  "affiliate": {
+    "enabled": true,
+    "showPrice": false,
+    "advertiser": {
+      "name": "ООО «ГРАМОТА»",
+      "ogrn": "1037706012376"
+    },
+    "disclosure": "Материал содержит рекламу. Ссылки на книги — партнёрские: если вы купите книгу по такой ссылке, проект может получить вознаграждение от магазина. Цена для покупателя не меняется; наличие, цена и формат уточняются на стороне магазина.",
+    "stores": {
+      "litres": {
+        "label": "ЛитРес",
+        "tagParam": "lfrom",
+        "tag": "",
+        "search": "https://www.litres.ru/search/?q={q}",
+        "advertiser": {
+          "name": "ООО «ЛИТРЕС»",
+          "inn": "7719571260"
+        },
+        "note": "Партнёрская программа AdvCake (оффер litresru, erid 2VfnxyNkZrY). Готовые ссылки под каждый товар собирает Cakelink API: https://cakelink.ru/link?dl=<url>&pass=<ключ> — см. scripts/import-audiobooks.py."
+      },
+      "ozon": {
+        "label": "Ozon",
+        "tagParam": "",
+        "tag": "",
+        "search": "https://www.ozon.ru/search/?text={q}"
+      },
+      "labirint": {
+        "label": "Лабиринт",
+        "tagParam": "",
+        "tag": "",
+        "search": "https://www.labirint.ru/search/?q={q}"
+      },
+      "chitai-gorod": {
+        "label": "Читай-город",
+        "tagParam": "",
+        "tag": "",
+        "search": "https://www.chitai-gorod.ru/search.html?query={q}",
+        "note": "Партнёрские ссылки магазин выдаёт готовыми: https://www.chitai-gorod.ru/r/XXXX?erid=… — подставлять метку не нужно, erid уже внутри ссылки."
+      }
+    }
+  },
+  "analytics": {
+    "yandexMetrika": "",
+    "googleAnalytics": ""
+  },
+  "verification": {
+    "yandex": "",
+    "google": "",
+    "bing": "",
+    "mailru": ""
+  },
+  "indexNow": {
+    "enabled": true,
+    "key": "8ed8248509fcdcf9be92920b6b74e11a"
+  }
+}
