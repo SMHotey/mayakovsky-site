@@ -6,16 +6,20 @@
     "people": "2026-11-10",
     "timeline": "2026-11-10",
     "biography": "2026-11-10",
-    "publications": null,
+    "publications": "2026-11-10",
     "places": "2026-11-10",
     "legacy": "2026-11-10",
     "books": "2026-11-10",
-    "research": null,
-    "versions": null,
+    "research": "2026-11-10",
+    "versions": "2026-11-10",
     "sources": "2026-11-10",
     "faq": "2026-11-10",
     "topics": "2026-11-10"
   },
-  "files": {},
+  "files": {
+    "content/publications/lesenka-zachem-lomal-stroku.md": "2026-11-10",
+    "content/publications/oblako-v-shtanah-razbor.md": "2026-11-10",
+    "content/publications/pro-eto-o-lyubvi.md": "2026-11-10"
+  },
   "note": "Даты последнего изменения по разделам. Обновляется скриптом scripts/last-updated.mjs из истории git; в CI без истории используется этот файл."
 }
