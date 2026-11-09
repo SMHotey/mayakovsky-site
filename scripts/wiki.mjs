@@ -7,7 +7,7 @@ export async function api(params, attempt = 0) {
   url.search = new URLSearchParams({ format: 'json', formatversion: '2', ...params }).toString();
   const res = await fetch(url, {
     headers: {
-      'User-Agent': 'YeseninDashboard/1.0 (educational non-commercial project; contact: local)',
+      'User-Agent': 'MayakovskyDashboard/1.0 (educational non-commercial project; contact: local)',
       'Accept': 'application/json',
     },
   });

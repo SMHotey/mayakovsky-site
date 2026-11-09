@@ -7,7 +7,8 @@
 - Генератор: `scripts/build.mjs` + `scripts/sections.mjs` (`npm run build`, `npm run verify`).
 - Пустые `data/*.json` — разделы показывают заглушки, пока данные не заполнены.
 - `site.config.json`: имя, падежи, годы, роль автора; аналитика пустая.
-- Портрет-заглушка `public/img/portrait.jpg` — заменить.
+- `public/img/portrait.jpg` (600×800) и фото эпохи/мест — с Викисклада, свободные лицензии,
+  авторы и лицензии в `data/media.json` (пересборка: `python scripts/import-media.py --force`).
 
 ## Порядок работы
 

@@ -464,7 +464,10 @@ function layout({ title, description, content, active = '', bodyClass = '', json
   const navHtml = nav.map(([href, label, key]) =>
     `<a href="${href}"${active === key ? ' aria-current="page"' : ''}>${label}</a>`).join('');
 
-  const fullTitle = title.includes(A.lastName) || title.includes(A.name) ? title : `${title} — ${A.name}`;
+  // Фамилия в заголовке может стоять в косвенном падеже («стихи Маяковского»),
+  // поэтому сверяем по основе, иначе имя автора дублируется в <title>.
+  const nameStem = A.lastName.slice(0, Math.max(4, A.lastName.length - 2));
+  const fullTitle = title.includes(nameStem) || title.includes(A.name) ? title : `${title} — ${A.name}`;
   const descText = shorten(description, 200);
   const ogImage = image || config.ogImage || A.portrait;
   const ogDims = config.ogImage ? '\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">' : '';
@@ -2298,7 +2301,8 @@ if (/\.example\b|example\.(org|com)/.test(SITE)) console.warn('ВНИМАНИЕ:
 // Ссылка считается промаркированной, если она пришла из партнёрской программы готовой
 // (erid/partnerId внутри URL): тогда метка в конфиге не нужна.
 const markedLinks = books.some((b) => (b.links || []).some((l) => /[?&](erid|partnerid)=/i.test(l.url || '')));
-if (config.affiliate?.enabled && books.length && !Object.values(stores).some((s) => s.tag) && !markedLinks) {
+const needsTag = Object.values(stores).some((s) => s.tagParam);
+if (config.affiliate?.enabled && books.length && needsTag && !Object.values(stores).some((s) => s.tag) && !markedLinks) {
   console.warn('ВНИМАНИЕ: у партнёрских ссылок нет меток — заполните affiliate.stores.*.tag перед публикацией');
 }
 if (!books.length) console.warn('ВНИМАНИЕ: data/books.json пуст — раздел «Книги» покажет заглушку');

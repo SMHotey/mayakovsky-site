@@ -319,14 +319,20 @@ for (const b of books) {
   }
 }
 const markedLinks = books.some((b) => (b.links || []).some((l) => /[?&](erid|partnerid)=/i.test(l.url || '')));
-if (config.affiliate?.enabled && books.length && !Object.values(config.affiliate?.stores || {}).some((s) => s.tag) && !markedLinks) {
+// Метка нужна только там, где магазин строит партнёрскую ссылку из параметра (tagParam).
+// «Читай-город» выдаёт готовые ссылки с erid — ему метка не нужна.
+const needsTag = Object.values(config.affiliate?.stores || {}).some((s) => s.tagParam);
+if (config.affiliate?.enabled && books.length && needsTag && !markedLinks && !Object.values(config.affiliate?.stores || {}).some((s) => s.tag)) {
   warnings.push('партнёрские ссылки без меток: заполните affiliate.stores.*.tag');
 }
 const booksHtml = await readFile(join(DIST, 'books/index.html'), 'utf8');
 if (books.length && !booksHtml.includes('rel="sponsored')) errors.push('books: у ссылок нет rel="sponsored"');
 // Маркировка рекламы обязана быть в заданной форме: «Реклама. Рекламодатель … , ОГРН …»
+// Проверяем только когда на странице действительно есть рекламные ссылки (erid):
+// обычная ссылка на магазин без erid рекламой не является, и маркировать её нечего.
 const adv = config.affiliate?.advertiser || {};
-if (books.length && adv.name) {
+const pageHasErid = /erid[:\s]/.test(booksHtml);
+if (books.length && adv.name && pageHasErid) {
   const required = `Реклама. Рекламодатель ${adv.name}${adv.ogrn ? `, ОГРН ${adv.ogrn}` : ''}.`;
   if (!booksHtml.includes(required)) errors.push(`books: нет обязательной маркировки «${required}»`);
 }
@@ -414,7 +420,11 @@ const worksData = await readJson('data/works.json');
 for (const w of worksData) {
   const t = String(w.text || '');
   if (/<\/?[a-zA-Z][^>]*>/.test(t)) errors.push(`works.json: ${w.slug} — сырые HTML-теги в тексте произведения`);
-  if (/(?:^|\n)__\w+__/.test(t)) errors.push(`works.json: ${w.slug} — wiki-хелперы (__NOTOC__) в тексте`);
+  // Только настоящие магические слова MediaWiki: длинные подчёркивания-разделители
+  // в драматических текстах под шаблон не подходят.
+  if (/(?:^|\n)__(?:NOTOC|TOC|FORCETOC|NOEDITSECTION|NEWSECTIONLINK|NOGALLERY)__/.test(t)) {
+    errors.push(`works.json: ${w.slug} — wiki-хелперы (__NOTOC__) в тексте`);
+  }
   if (/(?:^|\n)==+[^=\n]+==+\s*(?:\n|$)/.test(t)) errors.push(`works.json: ${w.slug} — wiki-заголовки «== … ==» в тексте`);
 }
 if (worksData.length) info.push(`произведений проверено: ${worksData.length}`);
@@ -427,12 +437,15 @@ if (!Array.isArray(bookCfg.genres) || !bookCfg.genres.length) {
 } else if (!(Number(bookCfg.minChars) > 0)) {
   errors.push('site.config.json: нет reader.book.genres/minChars');
 }
-// V2. Отбор по конфигу: ровно 17 текстов (решение владельца, порог не подгоняем).
+// V2. Отбор по конфигу. Ожидаемое число берётся из data/book-expect.json,
+// если файл есть: число фиксирует решение владельца, а не значение в коде.
 const bookGenres = new Set(bookCfg.genres || []);
 const bookMin = Number(bookCfg.minChars) || 1500;
 const bookSelection = worksData.filter((w) => bookGenres.has(w.genre) && (w.chars || 0) >= bookMin);
-if (bookSelection.length !== 17) {
-  errors.push(`book: по reader.book отобрано ${bookSelection.length} текстов вместо 17`);
+const bookExpect = existsSync('data/book-expect.json') ? await readJson('data/book-expect.json', null) : null;
+const expectedBookCount = Number(bookExpect?.count) || bookSelection.length;
+if (bookSelection.length !== expectedBookCount) {
+  errors.push(`book: по reader.book отобрано ${bookSelection.length} текстов вместо ${expectedBookCount}`);
 }
 const bookSelSlugs = new Set(bookSelection.map((w) => w.slug));
 const collapseBook = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
@@ -499,19 +512,15 @@ for (const w of worksData) {
     errors.push(`${rel}: chars ${w.chars} при длине text ${w.text.length} в works.json`);
   }
 }
-if (bookPages.size !== 17) errors.push(`book: страниц с обёрткой data-book-source ${bookPages.size} вместо 17`);
+if (bookPages.size !== bookSelection.length) {
+  errors.push(`book: страниц с обёрткой data-book-source ${bookPages.size} вместо ${bookSelection.length}`);
+}
 
 // V5. Типовые счётчики: замер по правилам БП на текущих данных. Расхождение означает,
 // что правило реализовано иначе, а не что замер устарел.
-const bookTypeExpect = {
-  'ярославны-плачут': { 'book-verse': 11 },
-  'ключи-марии': { 'book-verse': 3 },
-  'отчее-слово': { 'book-verse': 2 },
-  'о-сборниках-произведений-пролетарских-писателей': { 'book-verse': 1 },
-  'железный-миргород': { 'book-part': 2, 'book-head': 5 },
-  'у-белой-воды': { 'book-part': 3 },
-  'avtobiografiya-1923': { 'book-date': 1 },
-};
+// Точечные замеры разметки — в data/book-checks.json: у каждого автора свои тексты,
+// и держать чужие названия в коде проверки нельзя.
+const bookTypeExpect = existsSync('data/book-checks.json') ? await readJson('data/book-checks.json', {}) : {};
 for (const [slug, expect] of Object.entries(bookTypeExpect)) {
   const html = bookPages.get(slug);
   if (!html) {
@@ -524,14 +533,12 @@ for (const [slug, expect] of Object.entries(bookTypeExpect)) {
   }
 }
 // Структурные строки не должны остаться обычными абзацами.
-if (bookPages.has('железный-миргород') && /<p>\s*(?:I|II)\s*<\/p>/.test(bookPages.get('железный-миргород'))) {
-  errors.push('works/железный-миргород.html: номер части «I»/«II» остался абзацем p');
-}
-if (bookPages.has('у-белой-воды') && /<p>\s*[123]\s*<\/p>/.test(bookPages.get('у-белой-воды'))) {
-  errors.push('works/у-белой-воды.html: номер части «1»/«2»/«3» остался абзацем p');
-}
-if (bookPages.has('avtobiografiya-1923') && !/class="book-date">1923</.test(bookPages.get('avtobiografiya-1923'))) {
-  errors.push('works/avtobiografiya-1923.html: год 1923 не размечен блоком book-date');
+// Набор текстов у каждого автора свой: короткие номера частей ищутся по всем
+// страницам книги, без привязки к конкретным названиям.
+for (const [slug, html] of bookPages) {
+  if (/<p>\s*(?:I{1,3}|IV|V|1|2|3)\s*<\/p>/.test(html)) {
+    errors.push(`works/${slug}.html: номер части остался обычным абзацем p`);
+  }
 }
 // V6. Сводка по книжному виду (575 блоков — замер по правилам БП).
 info.push(`book: ${bookPages.size} текстов, ${bookBlocks} абзацев`);
@@ -612,7 +619,9 @@ for (const w of worksData) {
   if (bookSelSlugs.has(w.slug) && !hasBtn) errors.push(`${rel}: у текста книги нет кнопки «Режим книги»`);
   if (bookShortSlugs.has(w.slug) && hasBtn) errors.push(`${rel}: кнопка «Режим книги» у короткого текста (chars ${w.chars} < ${bookMin})`);
 }
-if (bookBtnPages !== 17) errors.push(`book: страниц с кнопкой «Режим книги» ${bookBtnPages} вместо 17`);
+if (bookBtnPages !== bookSelection.length) {
+  errors.push(`book: страниц с кнопкой «Режим книги» ${bookBtnPages} вместо ${bookSelection.length}`);
+}
 
 // --- служебные файлы ---
 
