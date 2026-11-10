@@ -97,6 +97,7 @@ for (const e of entries) {
 }
 
 const need = okShare ? 0 : Math.ceil((TARGET_SHARE * descriptive - t1) / (1 - TARGET_SHARE));
+const needPages = Math.max(0, MIN_PAGES - t1);
 
 const result = {
   site: config.siteUrl, checkedAt: new Date().toISOString(),
@@ -126,8 +127,13 @@ if (args.includes('--json')) {
   console.log(`  из них короткие тексты произведений (<400 знаков): ${thinShortWorks}, прочих тонких works (текст есть, страница короткая): ${thinWorks - thinShortWorks}`);
   console.log('');
   console.log(`  Норма: T1–T4 ≥ ${MIN_PAGES} страниц и ≥ ${fmtPct(TARGET_SHARE)} описательных.`);
-  console.log(`  Итог: ${ok ? 'PASS' : `FAIL — не хватает ${need} страниц T1–T4`}`);
-  if (!okCount) console.log(`        абсолютных страниц ${t1} из ${MIN_PAGES}`);
+  if (ok) console.log('  Итог: PASS');
+  else {
+    const why = [];
+    if (needPages) why.push(`до минимума не хватает ${needPages} страниц T1–T4 (${t1} из ${MIN_PAGES})`);
+    if (!okShare) why.push(`доля описательных ${fmtPct(shareDescriptive)} при норме ${fmtPct(TARGET_SHARE)}`);
+    console.log(`  Итог: FAIL — ${why.join('; ')}`);
+  }
   if (worksShare > WORKS_STOP) {
     console.log(`  Структура: works занимают ${fmtPct(worksShare)} — сайт в фазе контент-программы, ссылки и переоптимизация не в приоритете.`);
   }
