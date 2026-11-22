@@ -113,7 +113,7 @@ function fail(what, err) {
 // Идентификатор счётчика продублирован из site.config.json
 // (analytics.yandexMetrika): src/book копируется в dist как есть и конфигу
 // файл недоступен. Сверка константы с конфигом — строкой отчёта, не гейтом.
-const YM_ID = '113725113';
+const YM_ID = '114509180';
 // book_flip не чаще раза в 10 с (§9): последняя отметка времени в модуле.
 const FLIP_GOAL_MS = 10000;
 let lastFlipGoalAt = 0;

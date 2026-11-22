@@ -62,7 +62,9 @@ if (photos) info.push(`фото персон: ${photos} из ${peopleData.length
     if (!placeIds.has(id)) errors.push(`home.featuredPlaces: нет места «${id}»`);
   }
   for (const d of homeCfg.keyEvents || []) {
-    if (!eventDates.has(d)) errors.push(`home.keyEvents: нет события на ${d}`);
+    const isYear = /^\d{4}$/.test(String(d));
+    const ok = eventDates.has(d) || (isYear && timelineAll.some((e) => String(e.date).startsWith(d + '-')));
+    if (!ok) errors.push(`home.keyEvents: нет события на ${d}`);
   }
   info.push(`главная: произведений ${(homeCfg.featuredWorks || []).length}, персон ${(homeCfg.featuredPeople || []).length}, мест ${(homeCfg.featuredPlaces || []).length}, дат ${(homeCfg.keyEvents || []).length}`);
 }

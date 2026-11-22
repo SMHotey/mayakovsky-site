@@ -129,7 +129,15 @@
       "Вероника Полонская"
     ],
     "summary": "Актриса МХАТа, замужняя за актёром Михаилом Яншиным. Их роман длился около двух лет; Маяковский настаивал на её разводе. Утром 14 апреля 1930 года она была в его комнате и услышала выстрел, стоя у парадной двери. Её свидетельство 1990 года в журнале «Советский экран» остаётся главным источником о последнем утре поэта.",
-    "source": "ru.wikipedia"
+    "source": "ru.wikipedia",
+    "photo": "/img/people/veronika-polonskaya.jpg",
+    "photoWebp": "/img/people/veronika-polonskaya.webp",
+    "photoW": 400,
+    "photoH": 279,
+    "photoAlt": "Вероника Полонская в фильме «Три товарища»",
+    "photoCredit": "Ленфильм",
+    "photoLicense": "Public domain",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Polonskaja_Tre_compagni.jpg"
   },
   {
     "id": "elli-jones",

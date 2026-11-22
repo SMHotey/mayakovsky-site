@@ -809,7 +809,8 @@ const featured = (featuredTitles.length ? featuredTitles.map((t) => works.find((
   .filter(Boolean).slice(0, 6);
 
 const keyEventDates = config.home?.keyEvents || [];
-const keyEvents = (keyEventDates.length ? timeline.filter((e) => keyEventDates.includes(e.date)) : timeline).slice(0, 8);
+const keyEventMatch = (e) => keyEventDates.some((d) => e.date === d || String(e.date).startsWith(String(d) + '-'));
+const keyEvents = (keyEventDates.length ? timeline.filter(keyEventMatch) : timeline).slice(0, 8);
 
 const homePeopleIds = config.home?.featuredPeople || [];
 const homePeople = (homePeopleIds.length ? homePeopleIds.map((id) => people.find((p) => p.id === id)) : people.slice(0, 8))
