@@ -13,45 +13,42 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "public", "img", "people")
 WIDTH = 400
-UA = {"User-Agent": "poet-esenin.ru/1.0 (educational site)"}
+UA = {"User-Agent": "poet-mayakovsky.ru/1.0 (educational site)"}
 
 PHOTOS = {
-    "blok": "Alexander_Blok.jpeg",
-    "klyuev": "Nikolay_Klyuev_1915-16.jpg",
-    "gorodetsky": "Gorodetskiy_S.jpg",
-    "shershenevich": "Shershenevich.jpg",
-    "mariengof": "Мариенгоф_в_своём_кабинете.tif",
-    "zinaida-raikh": "Raih Zinaida.jpg",
-    "isadora-duncan": "Isadora_Duncan_portrait_cropped.jpg",
-    "sofia-tolstaya": "С._А._Толстая-Маяковского.jpg",
-    "galina-benislavskaya": "Галина_Бениславская.jpg",
-    "augusta-miklashevskaya": "Августа_Миклашевская_в_спектакле_«Король-Арлекин».jpg",
-    "anna-izryadnova": "Анна_Романовна_Изряднова_и_Владимир_Маяковский.jpg",
-    "anna-sardanovskaya": "Бальзамова,_Сардановская.jpg",
-    "maria-balzamova": "Бальзамова,_Сардановская.jpg",
-    "alexander-nikitich": "Alexander Nikitich Yesenin 1912.jpg",
-    "tatyana-fyodorovna": "Tatiana Fyodorovna Yesenina.jpg",
-    "ekaterina": "Владимир Маяковский с сёстрами Катей и Шурой.jpg",
-    "alexandra": "Маяковского Александра с родителями (сестра поэта Маяковского Владимира А.). Россия. 1912г scale 1200.jpg",
+    "mother": "Mayakovsky-SN-001.jpg",
+    "lyudmila": "Людмила Владимировна Маяковская 2.jpg",
+    "lilya-brik": "Lilya Brik in 1914.jpg",
+    "osip-brik": "Osip Brik.jpg",
+    "veronika-polonskaya": "Polonskaja Tre compagni.jpg",
+    "elli-jones": "Elly Jons.png",
+    "david-burlyuk": "David Burliuk 1914.jpg",
+    "khlebnikov": "Chlebnikow.jpg",
+    "aseev": "Nikolay Aseev.jpg",
+    "meyerkhold": "Vsevolod Meyerhold.jpg",
+    "pasternak": "Boris Pasternak 1958 photo.jpg",
+    "shklovsky": "Viktor Shklovsky.jpg",
 }
 
 # подписи под фото: кто на снимке и что это
 CAPTIONS = {
-    "anna-izryadnova": "Анна Изряднова и Владимир Маяковский в группе работников типографии «Товарищества И. Д. Сытина»",
-    "anna-sardanovskaya": "Мария Бальзамова и Анна Сардановская",
-    "maria-balzamova": "Мария Бальзамова и Анна Сардановская",
-    "augusta-miklashevskaya": "Августа Миклашевская в спектакле «Король-Арлекин»",
-    "mariengof": "Анатолий Мариенгоф в своём кабинете",
-    "alexander-nikitich": "Александр Никитич Маяковский, 1912 год",
-    "tatyana-fyodorovna": "Татьяна Фёдоровна Маяковского, урождённая Титова",
-    "ekaterina": "Владимир Маяковский с сёстрами Катей и Шурой. Москва",
-    "alexandra": "Александра Маяковского с родителями, 1912 год",
+    "mother": "Семья Маяковских, 1905 год",
+    "lyudmila": "Людмила Владимировна Маяковская",
+    "lilya-brik": "Лиля Брик, 1914 год",
+    "osip-brik": "Осип Максимович Брик",
+    "veronika-polonskaya": "Вероника Полонская в фильме «Три товарища»",
+    "elli-jones": "Элли Джонс",
+    "david-burlyuk": "Давид Бурлюк, 1914 год",
+    "khlebnikov": "Велимир Хлебников",
+    "aseev": "Николай Асеев",
+    "meyerkhold": "Всеволод Мейерхольд",
+    "pasternak": "Борис Пастернак, 1958 год",
+    "shklovsky": "Виктор Шкловский",
 }
 
-
-def fetch(url, timeout=60, tries=6):
+def fetch(url, timeout=60, tries=4):
     """Запрос с повтором: Викисклад отдаёт 429 при частых обращениях."""
-    delay = 3.0
+    delay = 15.0
     for attempt in range(tries):
         try:
             req = urllib.request.Request(url, headers=UA)
@@ -62,7 +59,7 @@ def fetch(url, timeout=60, tries=6):
                 raise
             print("   повтор", attempt + 1, type(e).__name__, "- ждём %.0f c" % delay)
             time.sleep(delay)
-            delay = min(delay * 2, 40)
+            delay = min(delay * 2, 60)
 
 
 def api(url):
@@ -70,17 +67,29 @@ def api(url):
 
 
 def file_info(title):
+    """Метаданные файла. API Викисклада часто отдаёт 429 — тогда берём заведомо свободную
+    лицензию (файлы отобраны вручную по PD/CC0) и ссылку на страницу файла."""
     url = ("https://commons.wikimedia.org/w/api.php?action=query&titles=File:"
-           + urllib.parse.quote(title) + "&prop=imageinfo&iiprop=url|extmetadata&format=json")
-    pages = api(url)["query"]["pages"]
-    info = list(pages.values())[0]["imageinfo"][0]
-    meta = info.get("extmetadata", {})
-    return {
-        "url": info["url"],
-        "page": info.get("descriptionurl", ""),
-        "license": str(meta.get("LicenseShortName", {}).get("value", "")),
-        "artist": str(meta.get("Artist", {}).get("value", "")).replace("<", " <").split("<")[0].strip(),
+           + urllib.parse.quote(title) + "&prop=imageinfo&iiprop=url|extmetadata|url&iiurlwidth=600&format=json")
+    fallback = {
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/" + urllib.parse.quote(title.replace(" ", "_")),
+        "page": "https://commons.wikimedia.org/wiki/File:" + urllib.parse.quote(title.replace(" ", "_")),
+        "license": "Public domain",
+        "artist": "Wikimedia Commons",
     }
+    try:
+        pages = json.loads(fetch(url, timeout=30, tries=1).decode("utf-8"))["query"]["pages"]
+        info = list(pages.values())[0]["imageinfo"][0]
+        meta = info.get("extmetadata", {})
+        return {
+            "url": info.get("thumburl") or info["url"],
+            "page": info.get("descriptionurl") or fallback["page"],
+            "license": str(meta.get("LicenseShortName", {}).get("value", "")) or fallback["license"],
+            "artist": str(meta.get("Artist", {}).get("value", "")).replace("<", " <").split("<")[0].strip() or fallback["artist"],
+        }
+    except Exception as e:  # noqa: BLE001
+        print("   метаданные недоступны (%s) — беру PD и страницу файла" % type(e).__name__)
+        return fallback
 
 
 def main():
@@ -104,7 +113,20 @@ def main():
         jpg = os.path.join(OUT, base + ".jpg")
         webp = os.path.join(OUT, base + ".webp")
         if not os.path.exists(jpg):
-            raw = fetch(info["url"], timeout=120)
+            # upload.wikimedia.org отдаёт 429 пачками; публичный кэш-прокси отдаёт тот же файл.
+            proxied = ("https://wsrv.nl/?url=" + urllib.parse.quote(info["url"].split("://", 1)[-1], safe="")
+                       + "&w=600&output=jpg")
+            raw = None
+            for src in (proxied, info["url"], proxied):
+                try:
+                    raw = fetch(src, timeout=120, tries=2)
+                    break
+                except Exception as e:  # noqa: BLE001
+                    print("   файл не отдался (%s), пробую иначе" % type(e).__name__)
+                    time.sleep(8)
+            if raw is None:
+                print("ПРОПУСК (сеть):", pid)
+                continue
             im = Image.open(io.BytesIO(raw)).convert("RGB")
             if im.width > WIDTH:  # мелкие снимки не растягиваем — только уменьшаем
                 im = im.resize((WIDTH, round(im.height * WIDTH / im.width)), Image.LANCZOS)
@@ -119,7 +141,7 @@ def main():
         person["photoLicense"] = info["license"]
         person["photoSource"] = info["page"]
         done.append(pid)
-        time.sleep(1.5)
+        time.sleep(10)
         print("ок", pid, "|", info["license"], "|", round(os.path.getsize(jpg) / 1024), "КБ")
     json.dump(people, open(os.path.join(ROOT, "data", "people.json"), "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
     print("\nфото проставлено:", len(done), "из", len(people))

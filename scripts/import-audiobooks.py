@@ -36,9 +36,10 @@ KEY_FILE = os.path.join(ROOT, ".secrets", "advcake.key")
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36",
       "Accept-Language": "ru-RU,ru;q=0.9"}
 
-SEARCH_QUERIES = ["есенин", "есенин стихи", "есенин поэмы", "есенин проза",
-                  "есенин собрание сочинений", "анна снегина", "пугачев есенин",
-                  "черный человек есенин", "страна негодяев есенин", "есенин аудиоспектакль"]
+SEARCH_QUERIES = ["маяковский", "маяковский стихи", "маяковский поэмы", "маяковский проза",
+                  "маяковский собрание сочинений", "облако в штанах", "флейта-позвоночник",
+                  "про это маяковский", "во весь голос", "клоп маяковский",
+                  "баня маяковский", "маяковский аудиоспектакль"]
 MAX_PAGES = 4
 MIN_MINUTES = 10          # короче — это одно стихотворение за 50 ₽, карточке не место
 ROBOT_NARRATOR = re.compile(r"вточтец", re.I)
@@ -50,13 +51,13 @@ CATEGORY_RULES = [
     ("Собрание сочинений", r"полное собрание|собрани[ея] сочинени|сочинения в \d+"),
     ("Избранное", r"избранн|лучшие|шедевры|150 известных"),
     ("Стихотворения и поэмы", r"стих[^|]{0,24}поэм|поэмы[.,]?\s*проза|проза[.,]?\s*поэм"),
-    ("Поэмы", r"\bпоэм|пугач[её]в|анна снегина|страна негодяев|песнь о великом походе|черный человек|чёрный человек"),
-    ("Проза", r"проза|очерк|железный миргород|у белой воды|повести|рассказы|\bяр\b"),
-    ("Стихотворения", r"стих|лирика|поэзия|письмо матери|пой же|над окошком|выткался"),
+    ("Поэмы", r"\bпоэм|облако в штанах|флейта-позвоночник|про это|во весь голос|война и мир|человек|хорошо"),
+    ("Проза", r"проза|очерк|мое открытие америки|как делать стихи|я сам|статьи|письма"),
+    ("Стихотворения", r"стих|лирика|поэзия|а вы могли бы|нате|послушайте|лиличка|скрипка"),
 ]
 
 # Отдельная поэма и сборник поэм — разные вещи, и рассказывать о них надо по-разному.
-SINGLE_POEM = re.compile(r"^(анна снегина|пугач[её]в|страна негодяев|песнь о великом походе|ч[её]рный человек)\b", re.I)
+SINGLE_POEM = re.compile(r"^(облако в штанах|флейта-позвоночник|про это|во весь голос|война и мир|человек|хорошо)\b", re.I)
 
 ANNOTATIONS = {
     "Собрание сочинений": [
@@ -73,13 +74,13 @@ ANNOTATIONS = {
     ],
     "Стихотворения и поэмы": [
         "И лирика, и крупная форма в одной записи — обычный набор «Маяковского на всю жизнь».",
-        "Стихотворения вместе с поэмами: от коротких пейзажей до «Анны Снегиной».",
+        "Стихотворения вместе с поэмами: от коротких вещей до «Облака в штанах».",
         "Смешанный состав: стихи, поэмы, местами проза — смотря что вошло в издание.",
         "Полный набор жанров под одной обложкой, без деления на тома.",
     ],
     "Поэмы": [
         "Сюжетный Маяковский: крупные вещи вместо коротких стихотворений.",
-        "Сборник поэм — от «маленьких поэм» до больших вещей.",
+        "Сборник поэм — от «Облака в штанах» до «Во весь голос».",
         "Несколько поэм подряд: видно, как у Маяковского работает длинная форма.",
     ],
     "Поэма": [
@@ -105,9 +106,9 @@ ANNOTATIONS = {
         "Исследование о поэте: версии, письма, полемика — с оговорками там, где фактов нет.",
     ],
     "Стихотворения": [
-        "Только лирика: пейзаж, деревня, любовь, поздние признания — без поэм и прозы.",
+        "Только лирика: город, революция, любовь, поздние признания — без поэм и прозы.",
         "Сборник стихотворений — то, что чаще всего ищут: один голос и короткие тексты.",
-        "Стихи разных лет в одной записи: от «Берёзы» до последних строк.",
+        "Стихи разных лет в одной записи: от «А вы могли бы?» до последних строк.",
         "Классический состав сборника: лирика без крупной формы.",
         "Стихотворения одного периода — удобно, если нужен конкретный отрезок пути.",
     ],
@@ -164,7 +165,7 @@ def annotate(cat: str, reader: str, minutes: int, year, about_author: str, title
 
 # ---------- сеть ----------
 
-def fetch(url: str, tries: int = 3) -> bytes:
+def fetch(url: str, tries: int = 5) -> bytes:
     last = None
     for attempt in range(tries):
         try:
@@ -172,7 +173,7 @@ def fetch(url: str, tries: int = 3) -> bytes:
                 return r.read()
         except Exception as e:  # noqa: BLE001
             last = e
-            time.sleep(1.5 * (attempt + 1))
+            time.sleep(3 * (attempt + 1))
     raise RuntimeError(f"{type(last).__name__}: {last}")
 
 
@@ -200,16 +201,28 @@ def next_flight_blob(raw: str) -> str:
 
 
 def search_page(query: str, page: int):
+    """ЛитРес отдаёт выдачу как React Flight: объекты товара лежат в "instance".
+    Достаём id, ссылку и название регулярным выражением — структура меняется чаще, чем ядро выдачи."""
     url = ("https://www.litres.ru/search/?q=" + urllib.parse.quote(query) +
            f"&art_types=audiobook&page={page}")
     raw = fetch(url).decode("utf-8", errors="ignore")
-    blob = next_flight_blob(raw)
+    # Flight-поток экранирует кавычки: сначала склеиваем чанки, потом ищем объекты.
+    blob = next_flight_blob(raw) or raw
+    pat = re.compile(r'"instance":\{"id":(\d+),"uuid":"[^"]*","cover_url":"[^"]*",'
+                     r'"url":"(/audiobook/[^"]+)"(?:,"title":"((?:[^"\\]|\\.)*)")?')
     items = []
-    for m in re.finditer(r'\{"id":\d+,"uuid":"[^"]*","cover_url":"[^"]*"', blob):
-        start = m.start()
-        obj = json_scan(blob, start)
-        if obj and obj.get("art_type") == 1 and obj.get("url", "").startswith("/audiobook/"):
-            items.append(obj)
+    seen = set()
+    for m in pat.finditer(blob):
+        pid = int(m.group(1))
+        if pid in seen:
+            continue
+        seen.add(pid)
+        title = m.group(3) or ""
+        try:
+            title = json.loads('"' + title + '"')
+        except Exception:  # noqa: BLE001
+            pass
+        items.append({"id": pid, "url": m.group(2), "title": html.unescape(title), "persons": []})
     return items
 
 
@@ -314,7 +327,11 @@ def main() -> None:
     else:
         for q in SEARCH_QUERIES:
             for page in range(1, MAX_PAGES + 1):
-                items = search_page(q, page)
+                try:
+                    items = search_page(q, page)
+                except Exception as e:  # noqa: BLE001
+                    print(f"  поиск «{q}» стр.{page}: {e} — пропускаем", flush=True)
+                    break
                 new = 0
                 for it in items:
                     if it["id"] not in found:
@@ -328,8 +345,8 @@ def main() -> None:
     # 2. отбор кандидатов: Маяковский как автор или книга о нём
     cands = []
     for it in found.values():
-        authors = [p.get("full_name", "") for p in it.get("persons", []) if p.get("role") == "author"]
-        if any("Владимир Маяковский" == a for a in authors) or "есенин" in it["title"].lower():
+        hay = (it.get("url", "") + " " + it.get("title", "")).lower()
+        if "mayakovsk" in hay or "маяковск" in hay:
             cands.append(it)
     cands.sort(key=lambda x: x["id"])
     print(f"кандидатов: {len(cands)}")
@@ -358,13 +375,9 @@ def main() -> None:
         title = html.unescape(ld.get("name") or it["title"]).strip()
 
         # антологии с другими поэтами — не наши
-        if len(author_names) > 1 and "есенин" not in title.lower():
+        if len(author_names) > 1 and "маяковск" not in title.lower():
             skipped["чужое"] += 1
             continue
-        if any("Елена Маяковского" in a for a in author_names):
-            skipped["чужое"] += 1
-            continue
-
         reader_obj = ld.get("readBy")
         readers = reader_obj if isinstance(reader_obj, list) else ([reader_obj] if reader_obj else [])
         readers = [r.get("name", "").strip() for r in readers if isinstance(r, dict) and r.get("name")]
