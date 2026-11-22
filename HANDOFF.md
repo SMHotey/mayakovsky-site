@@ -1,8 +1,8 @@
 # HANDOFF: сайт о Владимире Маяковском
 
 Проект: `mayakovsky-site` (рабочий каталог `C:\Users\malik\mayakovsky-site`), пакет автора — `C:\Users\malik\author-materials\mayakovsky`.
-Домен в конфиге: `https://poet-mayakovsky.ru` (не куплен, DNS не существует на 22.11.2026).
-Состояние: содержание и функции на уровне остальных сайтов серии; Pages включён (source = GitHub Actions), деплой-воркфлоу проходит, Метрика № 114509180 вписана. Ждём делегирования домена в реестре .ru, затем — привязка домена, HTTPS и коды поисковиков.
+Домен: `https://poet-mayakovsky.ru` — работает с 22–23.11.2026: NS Cloudflare, 4×A на 185.199.108–111.153, HTTPS-сертификат GitHub approved (до 21.02.2027), `https_enforced=true`, http→https 301, www→apex 301.
+Состояние: содержание и функции на уровне остальных сайтов серии; Pages включён (source = GitHub Actions), деплой-воркфлоу проходит, Метрика № 114509180 вписана, домен и HTTPS настроены. Осталось: подтверждение в Google Search Console и Яндекс.Вебмастере, IndexNow-обход.
 
 ## Что уже сделано
 
@@ -31,8 +31,8 @@
 
 ## Блокеры (нужен владелец)
 
-1. Домен `poet-mayakovsky.ru`: Pages уже включён, но реестр .ru (`a.dns.ripn.net`) не отдаёт NS — зона не делегирована, DNS-ответ NXDOMAIN. Проверить в панели регистратора статус регистрации и nameservers (должны быть NS Cloudflare), затем 4×A на 185.199.108–111.153 и CNAME www → `smhotey.github.io`. После делегирования: `gh api -X PUT repos/SMHotey/mayakovsky-site/pages -f cname=poet-mayakovsky.ru`, Enforce HTTPS.
-   Пока домен не работает, живая сборка доступна только по project-URL `https://smhotey.github.io/mayakovsky-site/` и там ломаются корневые пути (`/assets/...`) — это ожидаемо.
+1. Домен `poet-mayakovsky.ru` настроен (23.11.2026): NS Cloudflare, A 185.199.108–111.153, CNAME www → `smhotey.github.io`, сертификат approved, Enforce HTTPS включён. Если сертификат отвалится — снять и заново поставить cname (`-f cname=""`, затем `-f cname=poet-mayakovsky.ru`) — так выпуск сертификата перезапускается.
+   Project-URL `https://smhotey.github.io/mayakovsky-site/` по-прежнему ломает корневые пути (`/assets/...`) — это ожидаемо, рабочий адрес — домен.
 2. Партнёрские ссылки «Читай-города»: 94 из 94 книг со ссылками `chitai-gorod.ru/r/…?erid=…`, кабинет партнёрки вход выполнен, пароль сохранён в хранилище Hermes (владелец ввёл заново через защищённый запрос). На странице книг стоит маркировка «Реклама. Рекламодатель ООО «ГРАМОТА», ОГРН 1037706012376».
 3. Яндекс.Метрика: счётчик 114509180 вписан в `site.config.json` и в `src/book/book.js`; верификатор целей проходит.
 4. Google Search Console / Яндекс.Вебмастер: подтверждение домена после покупки; IndexNow-ключ уже в `public/`.
