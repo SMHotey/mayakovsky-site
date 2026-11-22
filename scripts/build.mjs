@@ -52,7 +52,7 @@ const SITE = String(config.siteUrl || 'https://example.org').replace(/\/$/, '');
 const TEXTS_PD = config.textsPublicDomain !== false;
 const LANG = config.lang || 'ru';
 const UPDATED = config.updated || moscowToday();
-const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'апреля'];
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
 function formatDate(iso) {
   const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -815,6 +815,12 @@ const homePeopleIds = config.home?.featuredPeople || [];
 const homePeople = (homePeopleIds.length ? homePeopleIds.map((id) => people.find((p) => p.id === id)) : people.slice(0, 8))
   .filter(Boolean).slice(0, 8);
 
+// Места на главной — из конфига: жёсткие id прежнего автора после клонирования
+// молча отфильтровывались, и блок показывал одну карточку вместо трёх.
+const homePlaceIds = config.home?.featuredPlaces || [];
+const homePlaces = (homePlaceIds.length ? homePlaceIds.map((id) => places.find((p) => p.id === id)) : places.slice(0, 3))
+  .filter(Boolean).slice(0, 3);
+
 const homeBooks = (books.some((b) => b.highlight) ? books.filter((b) => b.highlight) : books).slice(0, 2);
 
 const tiles = [
@@ -822,7 +828,7 @@ const tiles = [
   ['/people/', '02', 'Люди', `Семья, друзья, коллеги — ${stats.people}`],
   ['/life/', '03', 'Жизнь', 'Учёба, увлечения, хронология'],
   ['/works/', '04', 'Библиотека', `${stats.works} ${worksWord(stats.works)} с каталогом`],
-  ['/places/', '05', 'Места', `${places.length} ${plural(places.length, ['место', 'места', 'мест'])}: от Багдатиа до Нью-Йорка`],
+  ['/places/', '05', 'Места', `${places.length} ${plural(places.length, ['место', 'места', 'мест'])}: от Багдади до Нью-Йорка`],
   ['/legacy/', '06', 'Наследие', 'Гибель, музеи, музыка, кино, переводы'],
   ['/topics/', '07', 'Темы', `${topics.length} ${plural(topics.length, ['подборка', 'подборки', 'подборок'])} стихов`],
   ['/books/', '08', 'Книги', books.length ? `${stats.books} ${plural(stats.books, ['издание', 'издания', 'изданий'])} · партнёрские ссылки` : 'Издания автора'],
@@ -914,11 +920,11 @@ const home = `
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><h2>Маяковские места</h2><p>Восемь точек на карте: родина, две столицы, Кавказ и заграничные поездки.</p></div>
+      <div><h2>Маяковские места</h2><p>${places.length} ${plural(places.length, ['место', 'места', 'мест'])} на карте: родина, обе столицы, Кавказ и заграничные поездки.</p></div>
       <a class="section-link" href="/places/">Все места →</a>
     </div>
     <div class="works-grid">
-      ${['konstantinovo', 'moskva', 'peterburg'].map((id) => places.find((p) => p.id === id)).filter(Boolean).map((p) => `<a class="work-card" href="/places/${p.id}.html">
+      ${homePlaces.map((p) => `<a class="work-card" href="/places/${p.id}.html">
         <span class="genre">${esc(p.kicker)}</span><span class="title">${esc(p.title)}</span>
         <span class="year">${esc(p.years || '')}</span><span class="preview">${esc(p.subtitle)}</span>
       </a>`).join('')}
@@ -946,7 +952,7 @@ const home = `
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><h2>Стихи по темам</h2><p>${topics.length} ${plural(topics.length, ['подборка', 'подборки', 'подборок'])}: природа, Родина, деревня, любовь, город, смерть, Кавказ, революция.</p></div>
+      <div><h2>Стихи по темам</h2><p>${topics.length} ${plural(topics.length, ['подборка', 'подборки', 'подборок'])} с пояснениями и ссылками на полные тексты: город, революция, любовь, поэзия, сатира, Запад и Америка.</p></div>
       <a class="section-link" href="/topics/">Все подборки →</a>
     </div>
     <div class="tag-row" style="gap:8px">
@@ -1132,8 +1138,8 @@ function categoryPage(key) {
 
 // Досье персоны: факты и даты со ссылками. Нумерация источников сквозная по блоку,
 // поэтому каждая строка несёт маленький номер-ссылку, а не длинный URL.
-const MONTHS_GEN = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'апреля'];
-const MONTHS_NOM = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'апрель'];
+const MONTHS_GEN = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const MONTHS_NOM = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 // Даты в досье хранятся машинно (1915-03-09, 1922-05), а читателю нужен обычный вид.
 function fmtDossierDate(value) {
   const s = String(value || '').trim();

@@ -4,8 +4,8 @@ slug: early-years
 kind: period
 order: 1
 excerpt: "Село в Имеретии, лесничий отец, гимназия в Кутаиси, переезд в Москву после смерти отца, подпольная работа, три ареста и тюрьма, где начались стихи."
-image: "/img/era/1910-portrait.jpg"
-imageAlt: "Около 1910 года"
+image: "/img/places/baghdati-house.jpg"
+imageAlt: "Дом в Багдати, где родился Маяковский"
 imageCaption: "Около 1910 года"
 imageCredit: "Неизвестный фотограф"
 imageLicense: "Public domain"

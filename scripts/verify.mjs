@@ -41,6 +41,32 @@ for (const person of peopleData) {
 }
 if (photos) info.push(`фото персон: ${photos} из ${peopleData.length}`);
 
+// Плашки главной ссылаются на данные: после клонирования id прежнего автора
+// молча отфильтровывались, и блок показывал меньше карточек, чем задумано.
+{
+  const homeCfg = config.home || {};
+  const worksAll = await readJson('data/works.json', []);
+  const placesAll = existsSync('data/places.json') ? await readJson('data/places.json', []) : [];
+  const timelineAll = existsSync('data/timeline.json') ? await readJson('data/timeline.json', []) : [];
+  const normText = (s) => String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/gi, ' ').trim();
+  const peopleIds = new Set(peopleData.map((p) => p.id));
+  const placeIds = new Set(placesAll.map((p) => p.id));
+  const eventDates = new Set(timelineAll.map((e) => e.date));
+  for (const t of homeCfg.featuredWorks || []) {
+    if (!worksAll.some((w) => normText(w.title).startsWith(normText(t)))) errors.push(`home.featuredWorks: нет произведения «${t}»`);
+  }
+  for (const id of homeCfg.featuredPeople || []) {
+    if (!peopleIds.has(id)) errors.push(`home.featuredPeople: нет персоны «${id}»`);
+  }
+  for (const id of homeCfg.featuredPlaces || []) {
+    if (!placeIds.has(id)) errors.push(`home.featuredPlaces: нет места «${id}»`);
+  }
+  for (const d of homeCfg.keyEvents || []) {
+    if (!eventDates.has(d)) errors.push(`home.keyEvents: нет события на ${d}`);
+  }
+  info.push(`главная: произведений ${(homeCfg.featuredWorks || []).length}, персон ${(homeCfg.featuredPeople || []).length}, мест ${(homeCfg.featuredPlaces || []).length}, дат ${(homeCfg.keyEvents || []).length}`);
+}
+
 // Досье персон: каждое утверждение должно нести ссылку на источник.
 // Досье без ссылок хуже, чем его отсутствие: это выглядит как проверенный факт.
 if (existsSync('data/dossiers.json')) {

@@ -11,6 +11,7 @@
     "lastName": "Маяковский",
     "name": "Владимир Маяковский",
     "fullName": "Владимир Владимирович Маяковский",
+    "fullNameDative": "Владимиру Владимировичу Маяковскому",
     "genitive": "Маяковского",
     "prepositional": "Маяковском",
     "role": "поэт",
@@ -37,9 +38,10 @@
     "colleagues": "Современники"
   },
   "home": {
-    "featuredWorks": [],
-    "featuredPeople": [],
-    "keyEvents": []
+    "featuredWorks": ["Облако в штанах", "Флейта-позвоночник", "Про это", "Во весь голос", "Левый марш", "Клоп"],
+    "featuredPeople": ["lilya-brik", "osip-brik", "david-burlyuk", "khlebnikov", "mother", "meyerkhold", "pasternak", "veronika-polonskaya"],
+    "keyEvents": ["1893-07-19", "1906-07-15", "1912-11-30", "1915-07-15", "1917-03-03", "1924-10-20", "1929-02-13", "1930-04-14"],
+    "featuredPlaces": ["bagdati", "moskva", "peterburg"]
   },
   "reader": {
     "book": {

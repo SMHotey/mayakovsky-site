@@ -69,7 +69,7 @@ export function buildSectionPages(ctx) {
   const visibleTopics = topics.filter((t) => (topicWorks.get(t.id) || []).length > 0);
 
   page('topics/index.html', 'Стихи Маяковского по темам: подборки', 
-    'Тематические подборки стихов Владимира Маяковского: природа, Родина, деревня, любовь, мать, город, смерть, Кавказ, революция. С пояснениями и ссылками на полные тексты.',
+    'Тематические подборки стихов Владимира Маяковского: город, революция, любовь, поэзия, сатира, Запад и Америка. С пояснениями и ссылками на полные тексты.',
     `${crumbs([['/', 'Главная'], [null, 'Темы']])}
 <div class="wrap page-head">
   <h1>Стихи по темам</h1>
@@ -94,7 +94,7 @@ export function buildSectionPages(ctx) {
       '@type': 'CollectionPage', name: 'Стихи Маяковского по темам', inLanguage: LANG,
       hasPart: visibleTopics.map((t) => ({ '@type': 'CollectionPage', name: t.title, url: `${SITE}/topics/${t.id}.html` })),
     } });
-  search.push({ t: 'Стихи по темам', u: '/topics/', g: 'Раздел', k: 'Подборки', s: 'Природа, Родина, деревня, любовь, город, Кавказ' });
+  search.push({ t: 'Стихи по темам', u: '/topics/', g: 'Раздел', k: 'Подборки', s: 'Город, революция, любовь, сатира, Запад и Америка' });
 
   for (const t of visibleTopics) {
     const list = (topicWorks.get(t.id) || []).slice();
@@ -160,7 +160,7 @@ export function buildSectionPages(ctx) {
     `${crumbs([['/', 'Главная'], [null, 'Места']])}
 <div class="wrap page-head">
   <h1>Маяковские места</h1>
-  <p>Восемь точек, без которых биография рассыпается на даты: село в Имеретии, гимназия в Кутаиси, две столицы, Баку, Париж, Берлин и Нью-Йорк.</p>
+  <p>${places.length} ${plural(places.length, ['точка', 'точки', 'точек'])}, без которых биография рассыпается на даты: село в Имеретии, гимназия в Кутаиси, две столицы, Баку, Париж, Берлин и Нью-Йорк.</p>
 </div>
 <div class="wrap" style="padding-bottom:30px">
   <div class="works-grid">
@@ -299,11 +299,11 @@ export function buildSectionPages(ctx) {
     `${crumbs([['/', 'Главная'], ['/legacy/', 'Наследие'], [null, 'Музеи и памятники']])}
 <div class="wrap page-head">
   <h1>Музеи и памятники</h1>
-  <p>Четыре музея и три адреса памяти. Это не путеводитель: часы работы меняются, а экспозиции обновляются — здесь важно, что именно хранится и почему это место имеет значение.</p>
+  <p>${museums.length} ${plural(museums.length, ['музей', 'музея', 'музеев'])} и ${monuments.length} ${plural(monuments.length, ['адрес', 'адреса', 'адресов'])} памяти. Это не путеводитель: часы работы меняются, а экспозиции обновляются — здесь важно, что именно хранится и почему это место имеет значение.</p>
 </div>
 <div class="wrap" style="padding-bottom:40px">
   <h2 style="font-size:26px;margin-bottom:14px">Музеи</h2>
-  ${museums.map((m) => `<div class="panel place-panel">
+  ${museums.map((m) => `<div class="panel place-panel${m.photo ? '' : ' no-photo'}">
     ${m.photo ? `<picture class="panel-photo">${m.photoWebp ? `<source srcset="${esc(m.photoWebp)}" type="image/webp">` : ''}<img src="${esc(m.photo)}" alt="${esc(m.photoAlt || m.name)}" loading="lazy" decoding="async"></picture>` : ''}
     <div>
       <div class="meta-line"><span class="badge">${esc(m.place)}</span>${m.founded ? `<span>${esc(m.founded)}</span>` : ''}</div>
@@ -316,7 +316,7 @@ export function buildSectionPages(ctx) {
     </div>
   </div>`).join('')}
   <h2 style="font-size:26px;margin:34px 0 14px">Памятники и могила</h2>
-  ${monuments.map((m) => `<div class="panel place-panel">
+  ${monuments.map((m) => `<div class="panel place-panel${m.photo ? '' : ' no-photo'}">
     ${m.photo ? `<picture class="panel-photo">${m.photoWebp ? `<source srcset="${esc(m.photoWebp)}" type="image/webp">` : ''}<img src="${esc(m.photo)}" alt="${esc(m.photoAlt || m.name)}" loading="lazy" decoding="async"></picture>` : ''}
     <div>
       <div class="meta-line"><span class="badge">${esc(m.place)}</span>${m.year ? `<span>${esc(m.year)}</span>` : ''}</div>
