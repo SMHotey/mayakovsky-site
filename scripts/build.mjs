@@ -2284,12 +2284,13 @@ await writeFile(join(DIST, '_headers'), `# Заголовки для Netlify / C
   Cache-Control: public, max-age=0, must-revalidate
 `, 'utf8');
 
-// Редиректы: второй домен и www ведут на основной, остальное — на 404.
+// Редиректы: www ведёт на основной домен, остальное — на 404. Домен берём из SITE,
+// а не строкой: при клонировании сайта жёстко прописанный домен увёл бы
+// посетителей на чужой сайт (здесь до 23.11.2026 стояли правила esenin-сайта).
+const HOST = new URL(SITE).host;
 const redirects = [
-  '# Второй домен и www → основной (правило доменного уровня, работает на Netlify/Cloudflare Pages)',
-  'https://poet-esenin.online/*  https://poet-esenin.ru/:splat  301!',
-  'https://www.poet-esenin.online/*  https://poet-esenin.ru/:splat  301!',
-  'https://www.poet-esenin.ru/*  https://poet-esenin.ru/:splat  301!',
+  '# www → основной домен (правило доменного уровня, работает на Netlify/Cloudflare Pages)',
+  `https://www.${HOST}/*  https://${HOST}/:splat  301!`,
   '',
   '/*  /404.html  404',
   '',
