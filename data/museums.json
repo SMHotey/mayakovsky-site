@@ -33,9 +33,12 @@
    "Материалы о ЛЕФе и журнале"
   ],
   "note": "Квартира небольшая; экскурсии обычно идут по сеансам, лучше записываться заранее.",
-  "photoAlt": "Дом в Гендриковом переулке, где жил Маяковский",
-  "photoCredit": "Wikimedia Commons",
-  "photoLicense": "CC BY-SA"
+  "photoAlt": "Дом в Гендриковом переулке (ныне переулок Маяковского), где жил поэт",
+  "photoCredit": "Бутывский Дмитрий",
+  "photoLicense": "CC0",
+  "photo": "/img/places/gendrikov-house.jpg",
+  "photoWebp": "/img/places/gendrikov-house.webp",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Дом_в_котором_жил_Маяковский,_по_адресу_-_пер._Маяковского,_15_дробь_13.jpg"
  },
  {
   "id": "bagdati-museum",
@@ -50,8 +53,11 @@
    "Памятник Маяковскому"
   ],
   "note": "Музей в Грузии работает по местному расписанию; перед поездкой стоит уточнить часы и наличие экскурсии на русском языке.",
-  "photoAlt": "Дом-музей В. В. Маяковского в Багдати",
-  "photoCredit": "Wikimedia Commons",
-  "photoLicense": "CC BY-SA"
+  "photoAlt": "Дом-музей Маяковского в Багдати",
+  "photoCredit": "Yasuhiro Kojima",
+  "photoLicense": "CC BY-SA 4.0",
+  "photo": "/img/places/bagdati-museum.jpg",
+  "photoWebp": "/img/places/bagdati-museum.webp",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Mayakovsky_House_Museum_3.jpg"
  }
 ]

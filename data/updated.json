@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-11-23",
+  "generatedAt": "2026-11-24",
   "sections": {
-    "structure": "2026-11-22",
+    "structure": "2026-11-24",
     "works": "2026-11-10",
     "people": "2026-11-22",
     "timeline": "2026-11-22",
     "biography": "2026-11-10",
-    "publications": "2026-11-10",
+    "publications": "2026-11-24",
     "places": "2026-11-10",
     "legacy": "2026-11-10",
-    "books": "2026-11-22",
+    "books": "2026-11-24",
     "research": "2026-11-10",
     "versions": "2026-11-10",
     "sources": "2026-11-10",
@@ -18,8 +18,10 @@
   },
   "files": {
     "content/publications/lesenka-zachem-lomal-stroku.md": "2026-11-10",
-    "content/publications/oblako-v-shtanah-razbor.md": "2026-11-10",
-    "content/publications/pro-eto-o-lyubvi.md": "2026-11-10"
+    "content/publications/oblako-v-shtanah-razbor.md": "2026-11-24",
+    "content/publications/pro-eto-o-lyubvi.md": "2026-11-24",
+    "content/publications/fleyta-pozvonochnik-razbor.md": "2026-11-24",
+    "content/publications/vo-ves-golos-razbor.md": "2026-11-24"
   },
   "note": "Даты последнего изменения по разделам. Обновляется скриптом scripts/last-updated.mjs из истории git; в CI без истории используется этот файл."
 }

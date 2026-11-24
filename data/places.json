@@ -92,7 +92,7 @@
   "photo": "/img/places/kutaisi-gymnasium.jpg",
   "photoWebp": "/img/places/kutaisi-gymnasium.webp",
   "photoAlt": "Кутаиси, начало 1900-х. Гимназия, где учился Маяковский",
-  "photoCredit": "Неизвестный фотограф",
+  "photoCredit": "Неизвестный автор",
   "photoLicense": "Public domain",
   "photoSource": "https://commons.wikimedia.org/wiki/File:Kutaisi_gymnasium_(early_1900s).jpg"
  },
@@ -198,7 +198,13 @@
   "see": [
    "moskva",
    "baku"
-  ]
+  ],
+  "photo": "/img/places/petrograd-nevsky-1917.jpg",
+  "photoWebp": "/img/places/petrograd-nevsky-1917.webp",
+  "photoAlt": "Петроград, Невский проспект: солдаты и трамваи, 1917 год",
+  "photoCredit": "James Maxwell Pringle",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Petrograd._Soldiers_on_horseback_and_trams_in_Nevsky_Prospekt._LCCN2011647896_(cropped).jpg"
  },
  {
   "id": "baku",
@@ -243,7 +249,13 @@
   "see": [
    "peterburg",
    "parizh"
-  ]
+  ],
+  "photo": "/img/places/baku-oil-1887.jpg",
+  "photoWebp": "/img/places/baku-oil-1887.webp",
+  "photoAlt": "Балаханы под Баку: железная дорога у нефтяных промыслов, 1887 год",
+  "photoCredit": "A. Michon",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:3_phot._de_l'extraction_du_pétrole_près_de_Bakou_(Caucase_russe)_en_1887,_par_A._Michon,_don_Ed._Cotteau_en_1888_-_btv1b531743507_(3_of_3).jpg"
  },
  {
   "id": "parizh",
@@ -290,7 +302,13 @@
   "see": [
    "nyu-york",
    "berlin"
-  ]
+  ],
+  "photo": "/img/places/paris-eiffel-1925.jpg",
+  "photoWebp": "/img/places/paris-eiffel-1925.webp",
+  "photoAlt": "Эйфелева башня с электрической рекламой Citroën, 1925 год",
+  "photoCredit": "Неизвестный автор",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Citroen.jpg"
  },
  {
   "id": "nyu-york",
@@ -337,7 +355,13 @@
   "see": [
    "parizh",
    "moskva"
-  ]
+  ],
+  "photo": "/img/places/new-york-brooklyn-bridge.jpg",
+  "photoWebp": "/img/places/new-york-brooklyn-bridge.webp",
+  "photoAlt": "Американский линкор и буксиры у Бруклинского моста, Нью-Йорк",
+  "photoCredit": "Неизвестный автор",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:USS_Pennsylvania_(BB-38),_tugboats_and_the_Brooklyn_Bridge,_New_York_City_-_111-SC-41483_-_NARA_-_55242092_(cropped).jpg"
  },
  {
   "id": "berlin",
@@ -381,7 +405,13 @@
   "see": [
    "parizh",
    "moskva"
-  ]
+  ],
+  "photo": "/img/places/berlin-unter-den-linden.jpg",
+  "photoWebp": "/img/places/berlin-unter-den-linden.webp",
+  "photoAlt": "Берлин, Унтер-ден-Линден у Фридрихштрассе: кафе «Кранцлер»",
+  "photoCredit": "Неизвестный автор",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Berlin,_Mitte,_Café_Kranzler_Unter_den_Linden,_Ecke_Friedrichstraße.jpg"
  },
  {
   "id": "pushkino",
@@ -474,7 +504,13 @@
   "see": [
    "moskva",
    "baku"
-  ]
+  ],
+  "photo": "/img/places/crimea-yalta-embankment.jpg",
+  "photoWebp": "/img/places/crimea-yalta-embankment.webp",
+  "photoAlt": "Ялта: набережная у моря",
+  "photoCredit": "Alexxx1979",
+  "photoLicense": "CC BY-SA 4.0",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Crimea._Yalta_P9120700_2600.jpg"
  },
  {
   "id": "mekhiko",
@@ -568,7 +604,13 @@
   "see": [
    "mekhiko",
    "nyu-york"
-  ]
+  ],
+  "photo": "/img/places/havana-view-1920s.jpg",
+  "photoWebp": "/img/places/havana-view-1920s.webp",
+  "photoAlt": "Гавана, вид с высот Кабаньяс. Открытка 1920-х годов",
+  "photoCredit": "Carlos Jordi, Havana",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Havana_-_View_from_Cabaña_heights.jpg"
  },
  {
   "id": "tiflis",
@@ -613,6 +655,12 @@
    "bagdati",
    "kutaisi",
    "baku"
-  ]
+  ],
+  "photo": "/img/places/tiflis-old-photo.jpg",
+  "photoWebp": "/img/places/tiflis-old-photo.webp",
+  "photoAlt": "Тифлис на фотографии конца XIX — начала XX века",
+  "photoCredit": "Д. И. Ермаков",
+  "photoLicense": "Public domain",
+  "photoSource": "https://commons.wikimedia.org/wiki/File:Caucase._Tiflis_-_(mission)_de_Baye_;_(photogr._de_M._Yermakoff)_;_(photogr._reprod._par)_Molteni_(pour_la_conférence_donnée_par)_de_Baye_-_btv1b53258858r.jpg"
  }
 ]
