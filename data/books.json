@@ -407,43 +407,6 @@
     "coverHeight": 519
   },
   {
-    "id": "detyam-7954246",
-    "productId": "7954246",
-    "title": "Детям",
-    "format": "Бумажная книга",
-    "publisher": "АСТ",
-    "isbn": "978-5-17-153436-3",
-    "pages": 112,
-    "coverType": "",
-    "productUrl": "https://www.chitai-gorod.ru/product/detyam-7954246",
-    "stores": [
-      "chitai-gorod"
-    ],
-    "links": [
-      {
-        "store": "chitai-gorod",
-        "url": "https://www.chitai-gorod.ru/r/hQsJm?erid=2W5zFHFKQEe"
-      }
-    ],
-    "category": "Детям",
-    "tags": [
-      "Детям",
-      "АСТ"
-    ],
-    "searchQuery": "Маяковский Детям",
-    "cover": "/img/books/detyam-7954246.jpg",
-    "coverWebp": "/img/books/detyam-7954246.webp",
-    "coverAlt": "Детям — обложка издания",
-    "coverCredit": "Фото: Читай-город",
-    "price": 630,
-    "priceCurrency": "RUB",
-    "availability": "InStock",
-    "priceCheckedAt": "2026-11-10",
-    "annotation": "Детские книги Маяковского: «Что такое хорошо и что такое плохо», «Кем быть?», «Конь-огонь». 112 с., АСТ.",
-    "coverWidth": 400,
-    "coverHeight": 527
-  },
-  {
     "id": "vo-ves-golos-2879489",
     "productId": "2879489",
     "title": "Во весь голос",
@@ -1184,43 +1147,6 @@
     "coverHeight": 514
   },
   {
-    "id": "chto-takoe-horosho-stihi-malysham-7967905",
-    "productId": "7967905",
-    "title": "Что такое хорошо? Стихи малышам (ил. В. Канивца)",
-    "format": "Бумажная книга",
-    "publisher": "Эксмо",
-    "isbn": "978-5-04-178307-5",
-    "pages": 144,
-    "coverType": "",
-    "productUrl": "https://www.chitai-gorod.ru/product/chto-takoe-horosho-stihi-malysham-7967905",
-    "stores": [
-      "chitai-gorod"
-    ],
-    "links": [
-      {
-        "store": "chitai-gorod",
-        "url": "https://www.chitai-gorod.ru/r/adoJy?erid=2W5zFHow8SE"
-      }
-    ],
-    "category": "Детям",
-    "tags": [
-      "Детям",
-      "Эксмо"
-    ],
-    "searchQuery": "Маяковский Что такое хорошо? Стихи малышам (ил. В. Канивца)",
-    "cover": "/img/books/chto-takoe-horosho-stihi-malysham-7967905.jpg",
-    "coverWebp": "/img/books/chto-takoe-horosho-stihi-malysham-7967905.webp",
-    "coverAlt": "Что такое хорошо? Стихи малышам (ил. В. Канивца) — обложка издания",
-    "coverCredit": "Фото: Читай-город",
-    "price": 390,
-    "priceCurrency": "RUB",
-    "availability": "InStock",
-    "priceCheckedAt": "2026-11-10",
-    "annotation": "Детские книги Маяковского: «Что такое хорошо и что такое плохо», «Кем быть?», «Конь-огонь». 144 с., Эксмо.",
-    "coverWidth": 400,
-    "coverHeight": 518
-  },
-  {
     "id": "chto-takoe-horosho-i-chto-takoe-ploho-2718423",
     "productId": "2718423",
     "title": "Что такое хорошо и что такое плохо",
@@ -1588,43 +1514,6 @@
     "annotation": "Только стихотворения: лирика разных лет, без прозы и поэм. 224 с., АСТ.",
     "coverWidth": 400,
     "coverHeight": 551
-  },
-  {
-    "id": "stihotvoreniya-7639759",
-    "productId": "7639759",
-    "title": "Стихотворения",
-    "format": "Бумажная книга",
-    "publisher": "Эксмо",
-    "isbn": "978-5-04-092672-5",
-    "pages": 352,
-    "coverType": "",
-    "productUrl": "https://www.chitai-gorod.ru/product/stihotvoreniya-7639759",
-    "stores": [
-      "chitai-gorod"
-    ],
-    "links": [
-      {
-        "store": "chitai-gorod",
-        "url": "https://www.chitai-gorod.ru/r/vzgCF?erid=2W5zFJ6EzY2"
-      }
-    ],
-    "category": "Стихотворения",
-    "tags": [
-      "Стихотворения",
-      "Эксмо"
-    ],
-    "searchQuery": "Маяковский Стихотворения",
-    "cover": "/img/books/stihotvoreniya-7639759.jpg",
-    "coverWebp": "/img/books/stihotvoreniya-7639759.webp",
-    "coverAlt": "Стихотворения — обложка издания",
-    "coverCredit": "Фото: Читай-город",
-    "price": 216,
-    "priceCurrency": "RUB",
-    "availability": "InStock",
-    "priceCheckedAt": "2026-11-10",
-    "annotation": "Только стихотворения: лирика разных лет, без прозы и поэм. 352 с., Эксмо.",
-    "coverWidth": 400,
-    "coverHeight": 527
   },
   {
     "id": "vo-ves-golos-stihotvoreniya-i-poemy-7851060",

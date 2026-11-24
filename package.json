@@ -31,7 +31,9 @@
     "content:coverage": "node scripts/content-coverage.mjs",
     "links:orphans": "node scripts/links-orphans.mjs",
     "metrika:goals": "node scripts/metrika-goals.mjs",
-    "indexnow:dry": "node scripts/indexnow.mjs --dry-run"
+    "indexnow:dry": "node scripts/indexnow.mjs --dry-run",
+    "affiliate:refresh": "node scripts/refresh-affiliate.mjs",
+    "affiliate:fix": "node scripts/refresh-affiliate.mjs --fix"
   },
   "engines": {
     "node": ">=20"
